@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.15
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Open FPS Overlay", "Open FPS Overlay\Open FPS Overlay.csproj", "{1498BE07-6DFB-4CFC-9D7D-EE6AAF138C92}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9F9746F0-D68A-47AC-9D33-8FD840DE93EE} = {9F9746F0-D68A-47AC-9D33-8FD840DE93EE}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dll", "dll\dll.csproj", "{9F9746F0-D68A-47AC-9D33-8FD840DE93EE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1498BE07-6DFB-4CFC-9D7D-EE6AAF138C92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1498BE07-6DFB-4CFC-9D7D-EE6AAF138C92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1498BE07-6DFB-4CFC-9D7D-EE6AAF138C92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1498BE07-6DFB-4CFC-9D7D-EE6AAF138C92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F9746F0-D68A-47AC-9D33-8FD840DE93EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F9746F0-D68A-47AC-9D33-8FD840DE93EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F9746F0-D68A-47AC-9D33-8FD840DE93EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F9746F0-D68A-47AC-9D33-8FD840DE93EE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9C9A5482-706D-4B39-A2DD-72342088AAF1}
+	EndGlobalSection
+EndGlobal
