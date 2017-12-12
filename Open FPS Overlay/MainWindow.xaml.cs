@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -20,6 +22,16 @@ namespace Open_FPS_Overlay
     /// </summary>
     public partial class MainWindow : Window
     {
+        [DllImport("user32.dll")]
+        private static extern bool RegisterHotKey(IntPtr hWnd, int id, uint fsModifiers, uint vk);
+
+        [DllImport("user32.dll")]
+        private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
+
+        public int HOTKEY_ID { get; set; }
+
+        JObject config = JObject.Parse("config.json");
+
         public MainWindow()
         {
             InitializeComponent();
@@ -27,7 +39,8 @@ namespace Open_FPS_Overlay
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
+            Console.WriteLine("New Keybinding Requested");
+            
         }
     }
 }
