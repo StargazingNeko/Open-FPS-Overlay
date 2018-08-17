@@ -45,7 +45,7 @@ namespace OpenFPSOverlay {
 			if(doc.Parse(ss.str().c_str()).HasParseError)
 				throw std::invalid_argument("Parse Error");
 			
-			std::string boundHotKey = doc[0]["HotKey"].GetString();
+			std::string boundHotKey = doc[0]["Hotkey"].GetString();
 
 
 			std::stringstream str;
