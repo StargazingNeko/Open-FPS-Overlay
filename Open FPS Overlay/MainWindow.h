@@ -45,15 +45,15 @@ namespace OpenFPSOverlay {
 			if(doc.Parse(ss.str().c_str()).HasParseError)
 				throw std::invalid_argument("Parse Error");
 			
-			std::string boundKey = doc[0]["boundKey"].GetString();
+			std::string boundHotKey = doc[0]["HotKey"].GetString();
 
 
 			std::stringstream str;
-			str << boundKey;
-			int boundKeyHex;
-			str >> std::hex >> boundKeyHex;
+			str << boundHotKey;
+			int boundHotKeyHex;
+			str >> std::hex >> boundHotKeyHex;
 
-			textBox1->Text = boundKeyHex.ToString();
+			textBox1->Text = boundHotKeyHex.ToString(); //Place holder, will instead have the hex converted to the actual key before setting the text to mentioned key. (e.g, 0x7B will be read as F12)
 		}
 
 	protected:
