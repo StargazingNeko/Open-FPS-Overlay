@@ -40,7 +40,7 @@ namespace OpenFPSOverlay {
 			{
 				throw std::runtime_error("Unable to open configuration!");
 			}
-
+			
 			rapidjson::Document doc;
 			if(doc.Parse(ss.str().c_str()).HasParseError)
 				throw std::invalid_argument("Parse Error");
