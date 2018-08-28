@@ -1,10 +1,9 @@
-#include "rapidjson\document.h"
-#include "rapidjson/filereadstream.h"
 #include <iostream>
 #include <sstream>
 #include <Windows.h>
 #include <fstream>
 #include <cstdio>
+#include "nlohmann/json.hpp"
 
 #pragma once
 
@@ -16,6 +15,7 @@ namespace OpenFPSOverlay {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
+	using namespace nlohmann;
 
 	/// <summary>
 	/// Summary for MainWindow
@@ -29,27 +29,18 @@ namespace OpenFPSOverlay {
 			//
 			//TODO: Add the constructor code here
 			//
-			std::stringstream ss;
+
+			System::IO::File::ReadAllText("config.json");
+
 			std::ifstream cfgFile("config.json");
-			if (cfgFile)
-			{
-				ss << cfgFile.rdbuf();
-				cfgFile.close();
-			}
-			else
-			{
-				throw std::runtime_error("Unable to open configuration!");
-			}
-			
-			rapidjson::Document doc;
-			if(doc.Parse(ss.str().c_str()).HasParseError)
-				throw std::invalid_argument("Parse Error");
-			
-			std::string boundHotKey = doc[0]["Hotkey"].GetString();
+
+			json JString = json::parse(cfgFile);
+			std::cout << JString["Hotkey"].get<std::string>();
 
 
-			std::stringstream str;
-			str << boundHotKey;
+			std::string boundHotKey = JString["Hotkey"].get<std::string>();
+
+			std::stringstream str(boundHotKey);
 			int boundHotKeyHex;
 			str >> std::hex >> boundHotKeyHex;
 
