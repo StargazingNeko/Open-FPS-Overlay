@@ -127,9 +127,10 @@ namespace OpenFPSOverlay {
 		}
 #pragma endregion
 
-	private: System::Void Inject()
+	public: System::Void Inject()
 	{
-		HWND hWnd = FindWindowA(NULL, "MyForm");
+
+		HWND hWnd = GetForegroundWindow();
 		if (hWnd == NULL)
 		{
 			MessageBoxA(0, "Cannot find window.", "Error!", 0);
@@ -149,10 +150,10 @@ namespace OpenFPSOverlay {
 			}
 			else
 			{
-				fs::path test = fs::current_path();
-				std::string test2 = test.u8string() + "\\FPS.dll";
+				fs::path path = fs::current_path();
+				std::string DllLoc = path.u8string() + "\\FPS.dll";
 
-				LPCSTR DllPath = test2.c_str();//"D:\\Dev\\Environments\\VS\\Open FPS Overlay\\x64\\Release\\FPS.dll";
+				LPCSTR DllPath = DllLoc.c_str();
 				LPVOID pDllPath = VirtualAllocEx(hProc, 0, strlen(DllPath) + 1, MEM_COMMIT, PAGE_READWRITE);
 				WriteProcessMemory(hProc, pDllPath, (LPVOID)DllPath, strlen(DllPath) + 1, 0);
 				HANDLE hLoadThread = CreateRemoteThread(hProc, 0, 0, (LPTHREAD_START_ROUTINE)GetProcAddress(GetModuleHandleA("Kernel32.dll"), "LoadLibraryA"), pDllPath, 0, 0);
@@ -168,16 +169,7 @@ namespace OpenFPSOverlay {
 
 	private: System::Void bindKeyButton_Click(System::Object^ sender, System::EventArgs^ e)
 	{
-		Inject();
-		MessageBoxA(0, "For now this injects the dll.", nullptr, 0);
-	}
-
-	private: System::Void keyPressed(System::Object^ sender, KeyEventArgs^ e)
-	{
-		if (GetAsyncKeyState(VK_NUMPAD0))
-		{
-
-		}
+		MessageBoxA(0, "For now this does nothing!", nullptr, 0);
 	}
 	};
 }
