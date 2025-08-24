@@ -15,6 +15,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="config.json" />
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="MainWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -28,11 +32,5 @@
     <EmbeddedResource Include="MainWindow.resx">
       <Filter>Resource Files</Filter>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
-    <None Include="config.json">
-      <Filter>Resource Files</Filter>
-    </None>
   </ItemGroup>
 </Project>
