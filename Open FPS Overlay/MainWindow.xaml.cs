@@ -1,19 +1,9 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
+using System.Web.Script.Serialization;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Open_FPS_Overlay
 {
@@ -21,25 +11,30 @@ namespace Open_FPS_Overlay
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
-    {
-        [DllImport("user32.dll")]
-        private static extern bool RegisterHotKey(IntPtr hWnd, int id, uint fsModifiers, uint vk);
-
-        [DllImport("user32.dll")]
-        private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
-
-        public int HOTKEY_ID { get; set; }
-
-        JObject config = JObject.Parse("config.json");
-
+    { 
+        JavaScriptSerializer jss = new JavaScriptSerializer();
+        KeyConverter convertKey = new KeyConverter();
+        
         public MainWindow()
         {
             InitializeComponent();
+            if (!File.Exists("config.json"))
+            {
+                var defaultConfig = new Dictionary<string, dynamic>
+                {
+                    { "Hotkey", Key.F12 }
+                };
+                File.WriteAllText("config.json", jss.Serialize(defaultConfig));
+            }
+            var dict = jss.Deserialize<Dictionary<string, dynamic>>(File.ReadAllText("config.json"));
+            Key Hotkey_Id = (Key)dict["Hotkey"];
+            Bound_Text.Text = convertKey.ConvertToString(Hotkey_Id);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Console.WriteLine("New Keybinding Requested");
+            Bound_Text.Text = "...";
             
         }
     }
