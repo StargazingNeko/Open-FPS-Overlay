@@ -1,6 +1,6 @@
+#include <Windows.h>
 #include <iostream>
 #include <sstream>
-#include <Windows.h>
 #include <fstream>
 #include <cstdio>
 #include "nlohmann/json.hpp"
@@ -25,6 +25,9 @@ namespace OpenFPSOverlay {
 	public:
 		MainWindow(void)
 		{
+			MainWindow::KeyPreview = true;
+
+
 			InitializeComponent();
 			//
 			//TODO: Add the constructor code here
@@ -35,7 +38,7 @@ namespace OpenFPSOverlay {
 			std::ifstream cfgFile("config.json");
 
 			json JString = json::parse(cfgFile);
-			std::cout << JString["Hotkey"].get<std::string>();
+			std::cout << JString["Hotkey"].get<std::string>() + "\n";
 
 
 			std::string boundHotKey = JString["Hotkey"].get<std::string>();
@@ -58,9 +61,9 @@ namespace OpenFPSOverlay {
 				delete components;
 			}
 		}
-	private: System::Windows::Forms::Button^  bindKeyButton;
+	private: System::Windows::Forms::Button^ bindKeyButton;
 	protected:
-	private: System::Windows::Forms::TextBox^  textBox1;
+	private: System::Windows::Forms::TextBox^ textBox1;
 
 	protected:
 
@@ -68,7 +71,7 @@ namespace OpenFPSOverlay {
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		System::ComponentModel::Container ^components;
+		System::ComponentModel::Container^ components;
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -121,10 +124,54 @@ namespace OpenFPSOverlay {
 
 		}
 #pragma endregion
-
-	private: System::Void bindKeyButton_Click(System::Object^  sender, System::EventArgs^  e)
+	private: System::Void Inject()
 	{
+		HWND hWnd = FindWindowA(NULL, "MyForm");
+		if (hWnd == NULL)
+		{
+			MessageBoxA(0, "Cannot find window.", "Error!", 0);
+			//std::cout << "Cannot Find Window." << std::endl;
+		}
+		else
+		{
+			DWORD pid;
+			GetWindowThreadProcessId(hWnd, &pid);
+			std::cout << hWnd << std::endl;
+			HANDLE hProc = OpenProcess(PROCESS_ALL_ACCESS, FALSE, pid);
 
+			if (pid == NULL)
+			{
+				MessageBoxA(0, "Process Id is NULL!", "Error!", 0);
+				//std::cout << "Process Id is NULL" << std::endl;
+			}
+			else
+			{
+				LPCSTR DllPath = "\\FPS.dll";
+				LPVOID pDllPath = VirtualAllocEx(hProc, 0, strlen(DllPath) + 1, MEM_COMMIT, PAGE_READWRITE);
+				WriteProcessMemory(hProc, pDllPath, (LPVOID)DllPath, strlen(DllPath) + 1, 0);
+				HANDLE hLoadThread = CreateRemoteThread(hProc, 0, 0, (LPTHREAD_START_ROUTINE)GetProcAddress(GetModuleHandleA("Kernel32.dll"), "LoadLibraryA"), pDllPath, 0, 0);
+				WaitForSingleObject(hLoadThread, INFINITE);
+				std::cout << "PiD: " << pid << std::endl;
+				std::cout << "Dll path allocated at: " << pDllPath << std::endl;
+				std::cout << "Dll *should* be injected." << std::endl;
+				VirtualFreeEx(hProc, pDllPath, strlen(DllPath) + 1, MEM_RELEASE);
+
+			}
+		}
+	}
+
+	private: System::Void bindKeyButton_Click(System::Object^ sender, System::EventArgs^ e)
+	{
+		MessageBoxA(0, "For now this injects the dll.", nullptr, 0);
+		Inject();
+	}
+
+	private: System::Void keyPressed(System::Object^ sender, KeyEventArgs^ e)
+	{
+		if (GetAsyncKeyState(VK_NUMPAD0))
+		{
+			
+		}
 	}
 	};
 }
