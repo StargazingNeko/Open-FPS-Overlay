@@ -2,6 +2,7 @@
 #include <iostream>
 #include <sstream>
 #include <fstream>
+#include <filesystem>
 #include <cstdio>
 #include "nlohmann/json.hpp"
 
@@ -15,6 +16,7 @@ namespace OpenFPSOverlay {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
+	namespace fs = std::filesystem;
 	using namespace nlohmann;
 
 	/// <summary>
@@ -124,6 +126,7 @@ namespace OpenFPSOverlay {
 
 		}
 #pragma endregion
+
 	private: System::Void Inject()
 	{
 		HWND hWnd = FindWindowA(NULL, "MyForm");
@@ -146,7 +149,10 @@ namespace OpenFPSOverlay {
 			}
 			else
 			{
-				LPCSTR DllPath = "\\FPS.dll";
+				fs::path test = fs::current_path();
+				std::string test2 = test.u8string() + "\\FPS.dll";
+
+				LPCSTR DllPath = test2.c_str();//"D:\\Dev\\Environments\\VS\\Open FPS Overlay\\x64\\Release\\FPS.dll";
 				LPVOID pDllPath = VirtualAllocEx(hProc, 0, strlen(DllPath) + 1, MEM_COMMIT, PAGE_READWRITE);
 				WriteProcessMemory(hProc, pDllPath, (LPVOID)DllPath, strlen(DllPath) + 1, 0);
 				HANDLE hLoadThread = CreateRemoteThread(hProc, 0, 0, (LPTHREAD_START_ROUTINE)GetProcAddress(GetModuleHandleA("Kernel32.dll"), "LoadLibraryA"), pDllPath, 0, 0);
@@ -162,15 +168,15 @@ namespace OpenFPSOverlay {
 
 	private: System::Void bindKeyButton_Click(System::Object^ sender, System::EventArgs^ e)
 	{
-		MessageBoxA(0, "For now this injects the dll.", nullptr, 0);
 		Inject();
+		MessageBoxA(0, "For now this injects the dll.", nullptr, 0);
 	}
 
 	private: System::Void keyPressed(System::Object^ sender, KeyEventArgs^ e)
 	{
 		if (GetAsyncKeyState(VK_NUMPAD0))
 		{
-			
+
 		}
 	}
 	};
