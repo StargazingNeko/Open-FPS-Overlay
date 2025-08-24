@@ -31,5 +31,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="config.json">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
